@@ -22,7 +22,7 @@ publicThat = {
       opts.url = setURLParameter(opts.url, 'stale', 'ok');
     }
 
-    procPacket(
+    return procPacket(
       'GET',
       '/' + currDatabase + opts.url,
       null,
@@ -58,7 +58,7 @@ publicThat = {
       path += opts.url;
     }
 
-    procPacket('POST', path, opts.data, null, opts.callback);
+    return procPacket('POST', path, opts.data, null, opts.callback);
   },
 
   decode: function(d) {
@@ -80,7 +80,7 @@ publicThat = {
         throw new Error('Invalid callback type.');
       }
 
-      procPacket('GET', '/' + db, null, null, function(resp) {
+      return procPacket('GET', '/' + db, null, null, function(resp) {
         if(resp._HTTP.status === 404) {
           //create the db
           publicThat.createDatabase(db, function(resp) {
@@ -109,7 +109,7 @@ publicThat = {
   },
 
   getAllDatabases: function(callback) {
-    procPacket('GET', '/_all_dbs', null, null, callback);
+    return procPacket('GET', '/_all_dbs', null, null, callback);
   },
 
   getStats: function(callback) {
@@ -119,7 +119,7 @@ publicThat = {
       throw new Error('Invalid callback.');
     }
 
-    procPacket('GET', '/_stats', null, null, callback);
+    return procPacket('GET', '/_stats', null, null, callback);
   },
 
   generateIDs: function(opts) {
@@ -136,7 +136,7 @@ publicThat = {
       throw new Error('Invalid count type');
     }
 
-    procPacket('GET', url, null, null, opts.callback);
+    return procPacket('GET', url, null, null, opts.callback);
   },
 
   put: function(opts) {
@@ -178,7 +178,7 @@ publicThat = {
       }
     }
 
-    procPacket(
+    return procPacket(
       'PUT',
       '/' + currDatabase + '/' + opts.id,
       opts.data,
@@ -202,7 +202,7 @@ publicThat = {
       throw new Error('Invalid callback type');
     }
 
-    procPacket(
+    return procPacket(
       'DELETE',
       '/' + currDatabase + '/' + id,
       null,
@@ -232,7 +232,7 @@ publicThat = {
       throw new Error('Invalid callback type');
     }
 
-    procPacket(
+    return procPacket(
       'HEAD',
       '/' + currDatabase + opts.url,
       null,
@@ -248,7 +248,7 @@ publicThat = {
       throw new Error('Invalid callback type');
     }
 
-    procPacket('GET', '/_session', null, null, callback);
+    return procPacket('GET', '/_session', null, null, callback);
   },
 
   bulk: function(opts) {
@@ -274,7 +274,7 @@ publicThat = {
 
     data.docs = opts.docs;
 
-    procPacket(
+    return procPacket(
       'POST',
       '/' + currDatabase + '/_bulk_docs',
       data,
@@ -306,7 +306,7 @@ publicThat = {
       throw new Error('Invalid callback type.');
     }
 
-    procPacket('POST', url, null, null, opts.callback);
+    return procPacket('POST', url, null, null, opts.callback);
   },
 
   copy: function(opts) {
@@ -336,7 +336,7 @@ publicThat = {
       throw new Error('Invalid callback type.');
     }
 
-    procPacket(
+    return procPacket(
       'COPY',
       '/' + currDatabase + '/' + opts.srcID,
       null,
@@ -360,7 +360,7 @@ publicThat = {
       throw new Error('Invalid callback type.');
     }
 
-    procPacket('PUT', '/' + name, null, null, callback);
+    return procPacket('PUT', '/' + name, null, null, callback);
   },
 
   deleteDatabase: function(name, callback) {
@@ -372,7 +372,7 @@ publicThat = {
       throw new Error('Invalid callback type.');
     }
 
-    procPacket('DELETE', '/' + name, null, null, callback);
+    return procPacket('DELETE', '/' + name, null, null, callback);
   },
 
   setAttachment: function(opts) {
@@ -410,7 +410,7 @@ publicThat = {
       url += '?rev=' + opts.docRev;
     }
 
-    procPacket(
+    return procPacket(
       'PUT',
       url,
       opts.data,
@@ -498,7 +498,7 @@ publicThat = {
       }
     }
 
-    procPacket('POST', '/_replicate', data, null, opts.callback);
+    return procPacket('POST', '/_replicate', data, null, opts.callback);
   },
 
   getAllDocs: function(opts) {
@@ -566,10 +566,10 @@ publicThat = {
         throw new Error('Invalid keys (not an array).');
       }
 
-      procPacket('POST', url, { keys: opts.keys }, null, opts.callback);
+      return procPacket('POST', url, { keys: opts.keys }, null, opts.callback);
     }
 
-    procPacket('GET', url, null, null, opts.callback);
+    return procPacket('GET', url, null, null, opts.callback);
   },
 
   setPathPrefix: function(pre) {
@@ -622,7 +622,7 @@ publicThat = {
     }
     else if(opts.type === exports.AUTH_COOKIE) {
       //TODO url encode
-      procPacket(
+      return procPacket(
         'POST',
         '/_session',
         'name=' + opts.user + '&password=' + opts.pass,

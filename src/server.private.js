@@ -269,6 +269,7 @@ function procPacket(method, path, data, headers, callback) {
         callback
       );
     });
+    return promise;
   }
   else if(xmlHTTP) {
     // Browser xhr magik
